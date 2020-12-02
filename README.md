@@ -4,8 +4,11 @@ light rtp/rtsp server
 
 ## build
 
-mkdir build
-cd build
-cmake ../
-make -j
+  mkdir build
+  
+  cd build
+  
+  cmake ../
+  
+  make -j
 
