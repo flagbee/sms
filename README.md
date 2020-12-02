@@ -1,5 +1,14 @@
-# sms
+# SW multimedia streaming server
+
 light rtp/rtsp server
 
-make
-make test
+## build
+
+  mkdir build
+  
+  cd build
+  
+  cmake ../
+  
+  make -j
+
