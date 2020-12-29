@@ -78,6 +78,17 @@ void sendFrame(Frame *frame, int id)
 
 	gTotalSize += frame->size;
 
+	if( frame->type == FRAME_TYPE_H264_SPS ){
+		MediaInfo _mediaInfo;
+
+		memset(&_mediaInfo, 0x0, sizeof(MediaInfo));
+		if( 128 > frame->size ){
+			memcpy(_mediaInfo.H264.sps, frame->pData, frame->size);
+			_mediaInfo.H264.spsLen = frame->size;
+			smsSetMediaInfo(id, &_mediaInfo);
+		}
+	}
+
 	if( frame->type == FRAME_TYPE_H264_IDR || frame->type == FRAME_TYPE_H264_P ){
 		smsPutFrame(id, frame);
 		frame->timestamp += frame->timeResolution/30;
@@ -160,7 +171,7 @@ void testH264FileParserFunc(void *data)
 	frame.timestamp = 0;
 	frame.timeResolution = 30000;
 
-	fp = fopen("sample/live_stream_dump.264", "rb");
+	fp = fopen("../../sample/slamtv60.264", "rb");
 	if(fp){
 		memset(buf, 0x0, sizeof(char)*1024);
 		do {
@@ -286,7 +297,7 @@ void testAACFileParserFunc(void *data)
 	frame.timestamp = 0;
 	frame.timeResolution = 44100;
 
-	fp = fopen("sample/test.aac", "rb");
+	fp = fopen("../../sample/test.aac", "rb");
 	if(fp){
 		memset(buf, 0x0, sizeof(char)*1024);
 		do {
